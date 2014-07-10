@@ -26,6 +26,19 @@ str(mayor2014)
 str(mayors)
 #Both have 75 variables
 #12240 Obs
+
+
+
+str(mayor2013)
+str(mayor2014)
+##########################################################
+#Date conversions should happen here!!
+
+str(mayor2013$Rpt_date)
+str(mayor2014$Rpt_date)
+#These are different... why?
+##########################################################
+
 combo <- numeric()
 combo <- rbind(mayor2013, mayor2014)
 #Errors, not sure why...
@@ -49,6 +62,8 @@ combo$Tran_Zip4
 combo$Tran_Zip4 <- as.character(combo$Tran_Zip4)
 
 #This part can be slow
+#Gets only first 5 numbers in a zip code
+#Corrects for 96232- and 96323-1221 -> 96323
 #for(i in 1:nrow(combo)) {
 for(i in 1:37000) {
   if(!is.na(combo$Tran_Zip4[i]) && nchar(combo$Tran_Zip4[i]) >= 6)
@@ -59,10 +74,12 @@ for(i in 1:37000) {
   }
 }
 
-
+#Cleans further
 combo$Tran_Zip4 <- clean.zipcodes(combo$Tran_Zip4)
 
 
+#Conversions!!
+#Happens to late!
 combo$Tran_Date <- as.Date(as.character(combo$Tran_Date), "%m/%d/%Y")
 
 combo$Rpt_Date <- as.Date(as.character(combo$Rpt_Date), "%m/%d/%Y")
@@ -191,7 +208,7 @@ b <- subset(mayors, ID == c(1362117))
 c <- subset(mayors, ID == c(1362068))
 d <- subset(mayors, ID == c(1361139))
 e <- subset(mayors, ID == c(1362187))
-JustMayoralCampaignsNoPacs <- rbind(a, b,c,d,e)
+JustMayoralCampaignsNoPacs <- rbind(a,b,c,d,e)
 #str(JustMayoralCampaignsNoPacs)
 sum(JustMayoralCampaignsNoPacs$Amt1, na.rm = TRUE)
 #2,450,329
